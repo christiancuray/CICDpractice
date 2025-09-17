@@ -1,0 +1,36 @@
+name: CI
+
+# when to run
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# jobs to run
+jobs:
+  test-and-build:
+    name: Test , coverage and Build
+    runs-on: ubuntu-latest # whereto run
+    # steps to run
+    steps:
+      - name: Checkout and Setup Node
+        uses: actions/checkout@v4 # checkout the code
+      - name: setup node
+        uses: actions/setup-node@v4 # install node
+        with:
+          node-version: '20'
+      - name: Install dependencies
+        run: npm ci # works like npm install but faster. Installs from package-lock.json
+
+      - run: npm run lint  || true # lint the code . !!SKIP FOR NOW because i dont have eslint set up
+      - run: npm run test # run tests
+      - run: npm run coverage # generate coverage
+      - run: npm run build # build the code
+
+      - name: upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage # upload coverage report as artifact
+
