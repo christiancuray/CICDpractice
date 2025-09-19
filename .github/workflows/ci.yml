@@ -3,9 +3,9 @@ name: CI
 # when to run
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 # jobs to run
 jobs:
